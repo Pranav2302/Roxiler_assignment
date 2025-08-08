@@ -1,0 +1,88 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  SYSTEM_ADMIN
+  NORMAL_USER
+  STORE_OWNER
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(60)
+  email     String   @unique
+  password  String
+  address   String   @db.VarChar(400)
+  role      UserRole @default(NORMAL_USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  ownedStores Store[] @relation("StoreOwner")
+  ratings     Rating[]
+
+  @@map("users")
+}
+
+model Store {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(100)
+  email     String   @unique
+  address   String   @db.VarChar(400)
+  ownerId   Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  owner   User     @relation("StoreOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  ratings Rating[]
+
+  // Virtual field for average rating (calculated in queries)
+  // avgRating will be calculated in application logic
+
+  @@map("stores")
+}
+
+model Rating {
+  id        Int      @id @default(autoincrement())
+  rating    Int      @db.SmallInt // 1-5 rating
+  userId    Int
+  storeId   Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  store Store @relation(fields: [storeId], references: [id], onDelete: Cascade)
+
+  // Ensure one rating per user per store
+  @@unique([userId, storeId])
+  @@map("ratings")
+}
+
+// Indexes for performance
+// These will be created automatically by Prisma based on relations and unique constraints
+// Additional indexes can be added if needed:
+
+// @@index([name]) on User model - for searching by name
+// @@index([email]) on User model - for email lookups (already unique, so indexed)
+// @@index([role]) on User model - for filtering by role
+// @@index([name, address]) on Store model - for search functionality
+// @@index([rating]) on Rating model - for rating calculations
