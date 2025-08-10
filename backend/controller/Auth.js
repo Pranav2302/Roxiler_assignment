@@ -13,7 +13,7 @@ export const signup = async (req,res) =>{
         email,     
         password,  
         role,     
-        confirmpassword,
+        confirmPassword,
         address
     } =req.body;
 
@@ -58,7 +58,7 @@ export const signup = async (req,res) =>{
     }
 
     // 2 password match 
-    if(password !== confirmpassword){
+    if(password !== confirmPassword){
         return res.status(400).json({
             success:false,
             message:"both passwords should same"
@@ -79,8 +79,8 @@ export const signup = async (req,res) =>{
     }
 
     //hash the password 
-    const hashedpassword = await bcrypt.hash(password,10);
-    console.log(hashedpassword);
+    const hashedPassword = await bcrypt.hash(password,10);
+    console.log(hashedPassword);
 
     //createentry of user in db
     const user = await prisma.user.create({ 
