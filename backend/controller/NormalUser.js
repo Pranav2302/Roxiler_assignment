@@ -45,9 +45,6 @@ export const getAllStoreForRating = async (req,res)=>{
     }
 }
 
-export const getMyRating = async (req,res) =>{
-
-}
 
 // Get user's submit ratings
 export const getMyRatings = async (req, res) => {

@@ -1,7 +1,9 @@
 import express from "express"
 import { getAllStores,getAllUsers,getDashboardStats,getUserDetails,addStore,addUser } from "../controller/Admin.js"
-
 import {auth,isAuthorized,isNormalUser,isStoreOwner,isSystemAdmin} from "../middleware/auth.js"
+
+import { getOwnerDashboard,getMyStore,getMyStoreRatings } from "../controller/StoreOwner.js";
+import { getAllStoreForRating,getMyRatings,submitRating } from "../controller/NormalUser.js";
 
 const router = express.Router();
 
@@ -11,26 +13,28 @@ router.get('/admin/dashboard',auth,isSystemAdmin,getDashboardStats);
 router.get('/admin/users',auth,isSystemAdmin,getAllUsers);
 
 router.get('/admin/stores',auth,isSystemAdmin,getAllStores);
-
+router.get('/admin/users/:userId',auth,isSystemAdmin,getUserDetails);
+router.post('/admin/users',auth.isSystemAdmin,addUser);
+router.post('/admin/stores',auth,isSystemAdmin,addStore);
 
 
 //routes for store owner
-router.get('/owner/mystore',auth,isStoreOwner,get); //remaining
+router.get('/owner/mystore',auth,isStoreOwner,getMyStore); //remaining
 
-router.get('/owner/myrating',auth,isStoreOwner,getmystorerating);  //remaining to make
-
-router.get('/owner/dashboard',auth,isStoreOwner,getownerdashboard);
+router.get('/owner/myratings',auth,isStoreOwner,getMyStoreRatings);  //remaining to make
+router.get('/owner/dashboard',auth,isStoreOwner,getOwnerDashboard);
 
 
 
 //for normal users
-router.get('/stores',auth,isNormalUser,getAllStoresforrating);
+router.get('/stores',auth,isNormalUser,getAllStoreForRating);
 
-router.get('/myrating',auth,isNormalUser,getmyrating);
+router.get('/myrating',auth,isNormalUser,getMyRatings);
+router.post('/submitrating',auth,isNormalUser,submitRating);
 
 
-// Both Admin and Normal User can view stores (different purposes)
-router.get('/stores', auth, isAuthorized('SYSTEM_ADMIN', 'NORMAL_USER'), getStores);
 
 // update password 
-router.put('/change-password', auth, isAuthorized('SYSTEM_ADMIN', 'STORE_OWNER', 'NORMAL_USER'), changePassword);
+router.put('/changepassword', auth, isAuthorized('SYSTEM_ADMIN', 'STORE_OWNER', 'NORMAL_USER'), changePassword);4
+
+export default router;
