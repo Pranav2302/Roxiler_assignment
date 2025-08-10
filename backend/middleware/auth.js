@@ -36,7 +36,7 @@ export const auth = async(req,res,next) =>{
 
 export const isSystemAdmin   = async(req,res,next)=>{
     try {
-        if(req.user.role != "SYSTEM_ADMIN "){
+        if(req.user.role != "SYSTEM_ADMIN"){
             {
                 return res.status(403).json({
                     success:false,
@@ -85,7 +85,7 @@ export const isStoreOwner  = async(req,res,next)=>{
         }
         next()
     } catch (error) {
-        res.staus(500).json({
+        res.status(500).json({
             success:false,
             message: "You has not verified"
         })
