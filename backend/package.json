@@ -10,7 +10,10 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-   "start":"nodemon index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "build": "prisma generate",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@prisma/client": "^6.13.0",
