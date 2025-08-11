@@ -31,6 +31,14 @@ export const signup = async (req,res) =>{
         });
     }
 
+    // Name validation
+    if (name.length < 20 || name.length > 60) {
+        return res.status(400).json({
+            success: false,
+            message: "Name must be between 20 and 60 characters"
+        });
+    }
+
     //checking
     if (address.length > 400) {
         return res.status(400).json({
@@ -122,9 +130,12 @@ export const signup = async (req,res) =>{
 export const login = async (req,res) => {
     try {
         const{email , password} = req.body;
+        
+        console.log("🔍 Login attempt:", { email, passwordLength: password?.length });
 
         //valid ??
         if(!email || !password){
+          console.log("❌ Missing fields:", { email: !!email, password: !!password });
           return res.status(403).json({
             success: false,
             message: "All fields are required",
@@ -132,12 +143,16 @@ export const login = async (req,res) => {
         }
 
         //if already exit
+        console.log("🔍 Searching for user with email:", email);
 
         const user = await prisma.user.findUnique({ 
             where: { email }
         });
 
+        console.log("🔍 User found:", !!user, user ? `ID: ${user.id}, Role: ${user.role}` : "No user");
+
         if (!user) {
+        console.log("❌ User not found in database");
         return res.status(401).json({
         success: false,
         message: "User is not registered, Sign up first",
