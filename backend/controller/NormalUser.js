@@ -6,13 +6,13 @@ export const getAllStoreForRating = async (req,res)=>{
         const userId = req.user.id;
 
         const where ={};
-        if(name) where.name={contain :name,mode:'insensitive'};
-        if(address) where.address = {contain:address,mode:'insensitive'};
+        if(name) where.name={contains :name,mode:'insensitive'};
+        if(address) where.address = {contains:address,mode:'insensitive'};
         
         const stores = await prisma.store.findMany({
             where,
             select :{
-                id:true,name:true,address:true,rating:{select:{rating:true,userId:true}}
+                id:true,name:true,address:true,ratings:{select:{rating:true,userId:true}}
             }
         });
 
@@ -106,7 +106,7 @@ export const submitRating = async (req, res) => {
                         storeId: parseInt(storeId)
                     }
                 },
-                data: { rating: parseInt(rating) }
+                data: { rating: parseFloat(rating) }
             });
         } else {
             // Create new rating
@@ -114,7 +114,7 @@ export const submitRating = async (req, res) => {
                 data: {
                     userId,
                     storeId: parseInt(storeId),
-                    rating:  parseFloat(rating)
+                    rating: parseFloat(rating)
                 }
             });
         }
