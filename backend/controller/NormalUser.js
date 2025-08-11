@@ -114,7 +114,7 @@ export const submitRating = async (req, res) => {
                 data: {
                     userId,
                     storeId: parseInt(storeId),
-                    rating: parseInt(rating)
+                    rating:  parseFloat(rating)
                 }
             });
         }

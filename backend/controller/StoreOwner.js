@@ -7,7 +7,7 @@ export const getOwnerDashboard = async (req,res)=>{
         const store = await prisma.store.findFirst({
             where:{ownerId},
             include:{
-                rating:{
+                ratings:{
                     include:{
                         user:{
                             select:{id:true,name:true,email:true}
@@ -57,7 +57,7 @@ export const getMyStore = async (req, res) => {
     try {
         const ownerId = req.user.id;
 
-        const store = await prisma.store.findFirst({
+        const store = await prisma.store.findMany({
             where: { ownerId },
             select: {
                 id: true,

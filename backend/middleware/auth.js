@@ -6,7 +6,14 @@ dotenv.config();
 //auth 
 export const auth = async(req,res,next) =>{
     try {
-        const token = req.cookies.token || req.body.token || req.header("Authorization").replace("Bearer ","")
+        // Get token from cookies, body, or Authorization header
+        let token = req.cookies?.token || req.body?.token;
+        
+        // Check Authorization header
+        const authHeader = req.header("Authorization");
+        if (authHeader && authHeader.startsWith("Bearer ")) {
+            token = authHeader.replace("Bearer ", "");
+        }
 
         if(!token){
             return res.status(401).json({
@@ -17,6 +24,31 @@ export const auth = async(req,res,next) =>{
     try{
         const decode = jwt.verify(token,process.env.JWT_SECRET)
         console.log(decode)
+
+        //here we have to check the current user and previous diff or same (working for pass change)
+
+        // const currentuser = await prisma.user.findUnique({
+        //     where:{id: decode.id},
+        //     select:{id:true,email:true,role:true,updateAt:true}
+        // });
+
+        // if(!currentuser){
+        //     return res.status(401).json({
+        //         success:false,
+        //         message:"User not found"
+        //     });
+        // }
+
+        // const tokenTime = new Date(decode.passwordChanged);
+        //     const userTime = new Date(currentuser.updatedAt);
+
+        //     if (userTime > tokenTime) {
+        //         return res.status(401).json({
+        //             success: false,
+        //             message: "Token invalid, due to password change. Please login again."
+        //         });
+        //     }
+
         req.user = decode;
     }catch(error){
         return res.status(401).json({
@@ -37,12 +69,10 @@ export const auth = async(req,res,next) =>{
 export const isSystemAdmin   = async(req,res,next)=>{
     try {
         if(req.user.role != "SYSTEM_ADMIN"){
-            {
-                return res.status(403).json({
-                    success:false,
-                    message:"System Admin has only access"
-                })
-            }
+            return res.status(403).json({
+                success:false,
+                message:"System Admin has only access"
+            })
         }
         next()
     } catch (error) {
@@ -57,12 +87,10 @@ export const isSystemAdmin   = async(req,res,next)=>{
 export const isNormalUser  = async(req,res,next)=>{
     try {
         if(req.user.role != "NORMAL_USER"){
-            {
-                return res.status(403).json({
-                    success:false,
-                    message:"Normal User has only access"
-                })
-            }
+            return res.status(403).json({
+                success:false,
+                message:"Normal User has only access"
+            })
         }
         next()
     } catch (error) {
@@ -76,18 +104,16 @@ export const isNormalUser  = async(req,res,next)=>{
 export const isStoreOwner  = async(req,res,next)=>{
     try {
         if(req.user.role != "STORE_OWNER"){
-            {
-                return res.status(401).json({
-                    success:false,
-                    message:"storeowner has only access"
-                })
-            }
+            return res.status(403).json({
+                success:false,
+                message:"Store Owner has only access"
+            })
         }
         next()
     } catch (error) {
         res.status(500).json({
             success:false,
-            message: "You has not verified"
+            message: "Role verification failed"
         })
     }
 }

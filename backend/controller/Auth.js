@@ -150,6 +150,7 @@ export const login = async (req,res) => {
             email : user.email,
             id : user.id,
             role: user.role,
+           // passwordChanged: user.updatedAt.toISOString()
         };
 
         const token = jwt.sign(payload,process.env.JWT_SECRET,{
