@@ -31,6 +31,14 @@ export const signup = async (req,res) =>{
         });
     }
 
+    // Name validation
+    if (name.length < 20 || name.length > 60) {
+        return res.status(400).json({
+            success: false,
+            message: "Name must be between 20 and 60 characters"
+        });
+    }
+
     //checking
     if (address.length > 400) {
         return res.status(400).json({
@@ -122,6 +130,7 @@ export const signup = async (req,res) =>{
 export const login = async (req,res) => {
     try {
         const{email , password} = req.body;
+        
 
         //valid ??
         if(!email || !password){
@@ -136,6 +145,7 @@ export const login = async (req,res) => {
         const user = await prisma.user.findUnique({ 
             where: { email }
         });
+
 
         if (!user) {
         return res.status(401).json({
