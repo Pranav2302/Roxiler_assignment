@@ -8,7 +8,8 @@
     "build": "vite build",
     "vercel-build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "startall": "concurrently \"npm run dev\" \"cd ../backend && npm run dev\""
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
