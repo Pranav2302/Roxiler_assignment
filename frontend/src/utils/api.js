@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE = process.env.NODE_ENV==='production'?'http://localhost:5000/api' :"https://roxiler-assignment-backend-nine.vercel.app/api";
+const API_BASE = process.env.NODE_ENV==='production'?"https://roxiler-assignment-backend-nine.vercel.app/api" :'http://localhost:5000/api';
 
 export const setAuthToken = (token) => {
     if(token){
