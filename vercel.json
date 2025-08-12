@@ -1,6 +1,5 @@
 {
   "version": 2,
-  "name": "store-rating-fullstack",
   "builds": [
     {
       "src": "backend/index.js",
@@ -10,7 +9,7 @@
       "src": "frontend/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "frontend/dist"
+        "distDir": "dist"
       }
     }
   ],
@@ -20,17 +19,8 @@
       "dest": "/backend/index.js"
     },
     {
-      "src": "/assets/(.*)",
-      "dest": "/frontend/dist/assets/$1"
-    },
-    {
       "src": "/(.*)",
-      "dest": "/frontend/dist/index.html"
+      "dest": "/frontend/$1"
     }
-  ],
-  "installCommand": "cd frontend && npm install && cd ../backend && npm install",
-  "buildCommand": "cd frontend && npm run build && cd ../backend && npm run build",
-  "env": {
-    "NODE_ENV": "production"
-  }
+  ]
 }
