@@ -1,8 +1,17 @@
 import axios from "axios";
 
-const API_BASE = process.env.NODE_ENV==='production'?"/api" :'http://localhost:5000/api';
+// Determine API base URL based on environment
+const getApiBase = () => {
+  if (process.env.NODE_ENV === 'production') {
+    return "/api"; // Use relative path in production (Vercel routing will handle this)
+  }
+  return 'http://localhost:5000/api'; // Local development
+};
+
+const API_BASE = getApiBase();
 
 console.log('API_BASE:', API_BASE);
+console.log('NODE_ENV:', process.env.NODE_ENV);
 
 export const setAuthToken = (token) => {
     if(token){

@@ -8,9 +8,17 @@ dotenv.config();
 const app = express();
 
 //allow local and deployed backend url
-const allowedOrigin = ['https://roxiler-assignment-amber.vercel.app','http://localhost:5173']
+const allowedOrigin = [
+    'https://roxiler-assignment-amber.vercel.app',
+    'http://localhost:5173',
+    'http://localhost:5174',
+    /\.vercel\.app$/,  // Allow any Vercel domain
+    process.env.FRONTEND_URL
+].filter(Boolean);
+
 app.use(cors({
-    origin:allowedOrigin
+    origin: allowedOrigin,
+    credentials: true
 }));
 
 app.use(express.json());
