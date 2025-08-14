@@ -73,17 +73,17 @@ function AdminDashboard({ user, onLogout }) {
       setUserDialog(false);
       setNewUser({ name: '', email: '', password: '', address: '', role: 'NORMAL_USER' });
       loadDashboardData();
-      // You can add a toast notification here instead of alert
+      
     } catch (error) {
       console.error('Error adding user:', error);
-      // You can add a toast notification here instead of alert
+     
     }
   };
 
   const handleAddStore = async () => {
     try {
       if (!newStore.ownerId) {
-        // You can add a toast notification here instead of alert
+       
         return;
       }
       
@@ -91,10 +91,10 @@ function AdminDashboard({ user, onLogout }) {
       setStoreDialog(false);
       setNewStore({ name: '', email: '', address: '', ownerId: '' });
       loadDashboardData();
-      // You can add a toast notification here instead of alert
+      
     } catch (error) {
       console.error('Error adding store:', error);
-      // You can add a toast notification here instead of alert
+      
     }
   };
 
