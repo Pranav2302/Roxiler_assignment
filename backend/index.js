@@ -12,7 +12,7 @@ const allowedOrigin = [
     'https://roxiler-assignment-amber.vercel.app',
     'http://localhost:5173',
     'http://localhost:5174',
-    /\.vercel\.app$/,  // Allow any Vercel domain
+    'https://roxiler-assignment-pied.vercel.app',
     process.env.FRONTEND_URL
 ].filter(Boolean);
 
