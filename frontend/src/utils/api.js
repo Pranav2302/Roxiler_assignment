@@ -2,6 +2,8 @@ import axios from "axios";
 
 const API_BASE = process.env.NODE_ENV==='production'?"/api" :'http://localhost:5000/api';
 
+console.log('API_BASE:', API_BASE);
+
 export const setAuthToken = (token) => {
     if(token){
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -11,11 +13,15 @@ export const setAuthToken = (token) => {
 }
 
 //auth apis
-export const login = (email,password) =>
-    axios.post(`${API_BASE}/auth/login`,{email,password});
+export const login = (email,password) => {
+    console.log('Making login request to:', `${API_BASE}/auth/login`);
+    return axios.post(`${API_BASE}/auth/login`,{email,password});
+}
 
-export const signup = (userData) =>
-    axios.post(`${API_BASE}/auth/signup`,userData);
+export const signup = (userData) => {
+    console.log('Making signup request to:', `${API_BASE}/auth/signup`);
+    return axios.post(`${API_BASE}/auth/signup`,userData);
+}
 
 //admin apis
 export const getDashboardStats = () => 
