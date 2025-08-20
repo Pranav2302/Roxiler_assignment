@@ -3,36 +3,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
-} from '@/components/ui/table';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from '@/components/ui/dialog';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { Table, TableBody,TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Dialog, DialogContent, DialogHeader,DialogTitle,DialogFooter,} from '@/components/ui/dialog';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from '@/components/ui/select';
 import { Users, Store, Star, Plus, LogOut } from 'lucide-react';
-import { 
-  getDashboardStats, 
-  getAllUsers, 
-  getAllStores, 
-  addUser, 
-  addStore 
-} from '../utils/api';
+import {  getDashboardStats,  getAllUsers,  getAllStores,  addUser,  addStore } from '../utils/api';
 
 function AdminDashboard({ user, onLogout }) {
   const [stats, setStats] = useState({ totalUsers: 0, totalStores: 0, totalRatings: 0 });

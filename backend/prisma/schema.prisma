@@ -77,12 +77,3 @@ model Rating {
   @@map("ratings")
 }
 
-// Indexes for performance
-// These will be created automatically by Prisma based on relations and unique constraints
-// Additional indexes can be added if needed:
-
-// @@index([name]) on User model - for searching by name
-// @@index([email]) on User model - for email lookups (already unique, so indexed)
-// @@index([role]) on User model - for filtering by role
-// @@index([name, address]) on Store model - for search functionality
-// @@index([rating]) on Rating model - for rating calculations

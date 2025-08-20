@@ -3,7 +3,7 @@ import axios from "axios";
 // Determine API base URL based on environment
 const getApiBase = () => {
   if (process.env.NODE_ENV === 'production') {
-    return "/api"; // Use relative path in production (Vercel routing will handle this)
+    return "/api";
   }
   return 'http://localhost:5000/api'; // Local development
 };
