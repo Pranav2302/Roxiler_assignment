@@ -1,0 +1,22 @@
+{
+  "name": "rabbitmq_microservice",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [
+    "microserrvice"
+  ],
+  "license": "ISC",
+  "author": "Pranav kamble",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "amqplib": "^0.10.9",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "nodemailer": "^7.0.5"
+  }
+}

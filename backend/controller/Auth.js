@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
-
+import amqp from "amqplib";
 //signup
 export const signup = async (req,res) =>{
   console.log(req.body);
@@ -104,12 +104,24 @@ export const signup = async (req,res) =>{
 
     // Remove password from response
     const { password: _, ...userResponse } = user;
+    //rabbitMq work here 
+    const queue = 'user_registered';
+    const msg = JSON.stringify({email:userResponse.email,name:userResponse.name});
+   const connection = await amqp.connect('amqp://guest:guest@localhost:5672') 
+   const channel = await connection.createChannel();
+   await channel.assertQueue(queue,{durable : false});
+   channel.sendToQueue(queue,Buffer.from(msg));
+   console.log('Meassge sent to queue',msg);
 
+   await channel.close();
+   await connection.close();
     res.status(200).json({
       success: true,
       message: "User is registered successfully",
       data: userResponse,
     });
+
+    
   } catch (error) {
      console.log(error);
      if (error.code === 'P2002') {
